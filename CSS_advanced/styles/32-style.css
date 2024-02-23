@@ -388,7 +388,7 @@ ul.footer {
     opacity: 1;
   }
 
-  .card.work:hover .card-image {
+.card.work:hover .card-image {
     transform: scale(1.2);
     transition: var(--transition-duration) var(--transition-cubic-bezier);
 }
