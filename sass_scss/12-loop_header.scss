@@ -1,0 +1,6 @@
+/* Creates H tags where specified */
+@for $size from 1 through 5 {
+    h#{$size} {
+        font-size: #{$size}px;
+    }
+}
