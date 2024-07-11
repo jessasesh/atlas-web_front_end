@@ -49,9 +49,6 @@
                     results.forEach(result => {
                         addNewArticle(result.pageid, result.title, result.snippet);
                     });
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error querying Wikipedia API:", error);
                 }
             });
         }
