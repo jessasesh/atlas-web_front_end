@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Task 2 - Refactored with const</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script type="application/javascript">
+
+        function createFamilyTree() {
+
+            const table = $("<table>");
+            const tableHead = $("<thead>");
+            const headRow = $("<tr>");
+            $("<th>").text("Firstname").appendTo(headRow);
+            $("<th>").text("Lastname").appendTo(headRow);
+            headRow.appendTo(tableHead);
+            tableHead.appendTo(table);
+
+            const tableBody = $("<tbody>");
+            createTableRow(tableBody, "Guillaume", "Salva");
+            createTableRow(tableBody, "Paulette", "Salva");
+            createTableRow(tableBody, "Antoine", "Salva");
+            tableBody.appendTo(table);
+
+            $("body").append(table);
+        }
+
+        function createTableRow(tableBody, firstname, lastname) {
+            const row = $("<tr>");
+            $("<td>").text(firstname).appendTo(row);
+            $("<td>").text(lastname).appendTo(row);
+            row.appendTo(tableBody);
+        }
+
+        $(document).ready(() => {
+            createFamilyTree();
+        });
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
