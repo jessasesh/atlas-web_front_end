@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Task 6 - Val, before, and prepend functions</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script type="application/javascript">
+
+        function createFamilyTree() {
+            const table = $("<table>").appendTo("body");
+            $("<thead>").append(
+                $("<tr>").append(
+                    $("<th>").text("Firstname"),
+                    $("<th>").text("Lastname"),
+                    $("<th>").text("")
+                )
+            ).appendTo(table);
+            $("<tbody>").appendTo(table);
+        }
+
+        function addNewMember(firstName, lastName, position) {
+            const newRow = $("<tr>").append(
+                $("<td>").text(firstName),
+                $("<td>").text(lastName),
+                $("<td>").html('<span class="remove-button">(x)</span>')
+            );
+
+            if (position === "before") {
+                $("tbody").prepend(newRow);
+            } else {
+                $("tbody").append(newRow);
+            }
+
+            newRow.find(".remove-button").click(function() {
+                $(this).closest("tr").remove();
+            });
+        }
+
+        function createForm() {
+            const form = $("<form>").prependTo("body");
+            $("<input>").attr("type", "text").appendTo(form);
+            $("<input>").attr("type", "text").appendTo(form);
+            const select = $("<select>").appendTo(form);
+            $("<option>").val("before").text("Before").appendTo(select);
+            $("<option>").val("after").text("After").appendTo(select);
+            $("<input>").attr("type", "submit").appendTo(form);
+
+            form.submit(function(event) {
+                event.preventDefault();
+                const firstName = $(this).find("input[type=text]:first").val();
+                const lastName = $(this).find("input[type=text]:nth-of-type(2)").val();
+                const position = $(this).find("select").val();
+                addNewMember(firstName, lastName, position);
+            });
+        }
+
+        $(document).ready(function() {
+            createFamilyTree();
+            createForm();
+        });
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
