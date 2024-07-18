@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <style>
+        #logoutLink {
+            font-style: italic;
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginForm">
+        <h2>Login to the website</h2>
+        <input type="text" id="firstname" placeholder="Firstname">
+        <input type="text" id="email" placeholder="Email">
+        <button onclick="setCookiesAndShowWelcomeMessage()">Log me in</button>
+    </div>
+    <div id="welcomeMessageContainer"></div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("loginForm").style.display = "block";
+            showWelcomeMessageOrForm();
+        });
+
+        function setCookiesAndShowWelcomeMessage() {
+            let firstname = document.getElementById('firstname').value;
+            let email = document.getElementById('email').value;
+
+            let date = new Date();
+            date.setTime(date.getTime() + (10 * 24 * 60 * 60 * 1000));
+
+            Cookies.set('firstname', firstname, { expires: date, path: '' });
+            Cookies.set('email', email, { expires: date, path: '' });
+
+            showWelcomeMessageOrForm();
+        }
+
+        function showForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('welcomeMessageContainer').innerHTML = '';
+        }
+
+        function deleteCookiesAndShowForm() {
+            Cookies.remove('firstname', { path: '' });
+            Cookies.remove('email', { path: '' });
+            showForm();
+        }
+
+        function showWelcomeMessageOrForm() {
+            let firstname = Cookies.get('firstname');
+            if (firstname) {
+                // User is logged in
+                document.getElementById('loginForm').style.display = 'none';
+
+                let welcomeMessageContainer = document.getElementById('welcomeMessageContainer');
+                if (!welcomeMessageContainer) {
+                    welcomeMessageContainer = document.createElement('div');
+                    welcomeMessageContainer.id = 'welcomeMessageContainer';
+                    document.body.appendChild(welcomeMessageContainer);
+                }
+
+                welcomeMessageContainer.innerHTML = `<div id="welcomeMessage">
+                                                        <h1>Welcome ${firstname} <a href="#" id="logoutLink">(logout)</a></h1>
+                                                    </div>`;
+                
+                let logoutLink = document.getElementById('logoutLink');
+                logoutLink.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    deleteCookiesAndShowForm();
+                    showForm(); // Show form after logout
+                });
+            } else {
+                showForm();
+            }
+        }
+    </script>
+</body>
+</html>
