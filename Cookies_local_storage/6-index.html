@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart with Session Storage</title>
+    <style>
+        li {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <ul id="itemList"></ul>
+    <p id="cartStatus"></p>
+
+    <script>
+        const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
+
+        function addItemToCart(item) {
+            try {
+                let cartItems = JSON.parse(sessionStorage.getItem('cartItems')) || {};
+                if (!cartItems[item]) {
+                    cartItems[item] = true;
+                    sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    displayCart();
+                }
+            } catch (e) {
+                alert('Sorry, your browser does not support session storage. Try again with a better one.');
+            }
+        }
+
+        function createStore() {
+            const itemList = document.getElementById('itemList');
+            availableItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.addEventListener('click', () => addItemToCart(item));
+                itemList.appendChild(li);
+            });
+        }
+
+        function displayCart() {
+            try {
+                let cartItems = JSON.parse(sessionStorage.getItem('cartItems')) || {};
+                const keys = Object.keys(cartItems);
+                const cartStatus = document.getElementById('cartStatus');
+                if (keys.length === 0) {
+                    cartStatus.textContent = '';
+                } else {
+                    cartStatus.textContent = `You previously had ${keys.length} items in your cart.`;
+                }
+            } catch (e) {
+                alert('Sorry, your browser does not support session storage. Try again with a better one.');
+            }
+        }
+
+        createStore();
+        displayCart();
+    </script>
+</body>
+</html>
